@@ -21,10 +21,12 @@ module Graphshaper
     end
     
     def add_edge(first_node_id, second_node_id)
-      if first_node_id < order && second_node_id < order
-        @edges << [first_node_id, second_node_id].sort
-      else
+      if first_node_id == second_node_id
+        raise "No Self-Referential Edge"
+      elsif first_node_id >= order || second_node_id >= order
         raise "ID doesn't exist"
+      else
+        @edges << [first_node_id, second_node_id].sort
       end
     end
     

@@ -42,5 +42,9 @@ describe Graphshaper::UndirectedGraph do
       @graph.add_edge 0,1
       expect { @graph.add_edge 1,0 }.to change{ @graph.size }.by(0)
     end
+    
+    it "should not add an edge where the first and second node are the same" do
+      expect { @graph.add_edge 0, 0}.to raise_error(RuntimeError, "No Self-Referential Edge")
+    end
   end
 end
