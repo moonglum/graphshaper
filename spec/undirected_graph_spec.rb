@@ -58,4 +58,18 @@ describe Graphshaper::UndirectedGraph do
       end
     end
   end
+  
+  describe "random generated graph without orphans" do
+    before :each do
+      @graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of 15
+    end
+    
+    it "should have the correct order" do
+      @graph.order.should ==(15)
+    end
+    
+    it "should have no orphans" do
+      @graph.number_of_orphans.should ==(0)
+    end
+  end
 end

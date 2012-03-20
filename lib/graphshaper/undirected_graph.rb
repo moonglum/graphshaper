@@ -7,6 +7,19 @@ module Graphshaper
       @unconnected_vertices = Set.new (0...number_of_vertices).to_a
     end
     
+    def UndirectedGraph.without_orphans_with_order_of(number_of_vertices)
+      graph = self.new number_of_vertices
+      
+      while graph.number_of_orphans > 0
+        a = rand(graph.order)
+        while a == (b = rand(graph.order)); end
+        
+        graph.add_edge a, b
+      end
+      
+      return graph
+    end
+    
     # the number of vertices
     def order
       @number_of_vertices
