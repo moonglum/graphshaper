@@ -57,6 +57,17 @@ describe Graphshaper::UndirectedGraph do
         @graph.add_edge node_a, node_b
       end
     end
+    
+    it "should calculate the vertex degree" do
+      expect { @graph.add_edge 0,1 }.to change { @graph.vertex_degree_for 1}.by(1)
+    end
+    
+    it "should calculate the degree distribution" do
+      @graph.degree_distribution.should ==[5]
+      @graph.add_edge 0,1
+      @graph.add_edge 1,2
+      @graph.degree_distribution.should ==[2,2,1]
+    end
   end
   
   describe "random generated graph without orphans" do

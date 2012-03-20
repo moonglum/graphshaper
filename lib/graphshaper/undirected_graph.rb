@@ -2,7 +2,7 @@ module Graphshaper
   class UndirectedGraph
     # Create a graph with a given number of vertices
     def initialize(number_of_vertices)
-      @number_of_vertices = number_of_vertices
+      @vertex_degrees = [0] * number_of_vertices
       @edges = Set.new
       @unconnected_vertices = Set.new (0...number_of_vertices).to_a
     end
@@ -22,7 +22,7 @@ module Graphshaper
     
     # the number of vertices
     def order
-      @number_of_vertices
+      @vertex_degrees.length
     end
     
     # the number of edges
@@ -31,8 +31,8 @@ module Graphshaper
     end
     
     def add_vertex
+      @vertex_degrees << @number_of_vertices
       @unconnected_vertices.add @number_of_vertices
-      @number_of_vertices += 1
     end
     
     def add_edge(first_node_id, second_node_id)
@@ -42,7 +42,9 @@ module Graphshaper
         raise "ID doesn't exist"
       else
         @unconnected_vertices.delete first_node_id
+        @vertex_degrees[first_node_id] += 1
         @unconnected_vertices.delete second_node_id
+        @vertex_degrees[second_node_id] += 1
         @edges << [first_node_id, second_node_id].sort
       end
     end
@@ -54,6 +56,22 @@ module Graphshaper
     # The number of vertices without edges
     def number_of_orphans
       @unconnected_vertices.length
+    end
+    
+    def vertex_degree_for(node_id)
+      @vertex_degrees[node_id]
+    end
+    
+    def degree_distribution
+      degree_distribution = []
+      @vertex_degrees.each do |vertex_degree|
+        if degree_distribution[vertex_degree]
+          degree_distribution[vertex_degree] += 1
+        else
+          degree_distribution[vertex_degree] = 1
+        end
+      end
+      degree_distribution
     end
   end
 end
