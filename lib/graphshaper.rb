@@ -1,5 +1,5 @@
 require "graphshaper/version"
+require "graphshaper/graph"
 
 module Graphshaper
-  # Your code goes here...
 end
