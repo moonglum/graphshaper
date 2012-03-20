@@ -1,5 +1,5 @@
 module Graphshaper
-  class Graph
+  class UndirectedGraph
     # Create a graph with a given number of vertices
     def initialize(number_of_vertices)
       @number_of_vertices = number_of_vertices
@@ -22,7 +22,7 @@ module Graphshaper
     
     def add_edge(first_node_id, second_node_id)
       if first_node_id < order && second_node_id < order
-        @edges << [first_node_id, second_node_id]
+        @edges << [first_node_id, second_node_id].sort
       else
         raise "ID doesn't exist"
       end

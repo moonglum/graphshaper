@@ -1,5 +1,5 @@
 require "graphshaper/version"
-require "graphshaper/graph"
+require "graphshaper/undirected_graph"
 
 module Graphshaper
 end
