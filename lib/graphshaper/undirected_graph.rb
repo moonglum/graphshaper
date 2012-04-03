@@ -35,22 +35,22 @@ module Graphshaper
       @unconnected_vertices.add @number_of_vertices
     end
     
-    def add_edge(first_node_id, second_node_id)
-      if first_node_id == second_node_id
+    def add_edge(first_vertex_id, second_vertex_id)
+      if first_vertex_id == second_vertex_id
         raise "No Self-Referential Edge"
-      elsif first_node_id >= order || second_node_id >= order
+      elsif first_vertex_id >= order || second_vertex_id >= order
         raise "ID doesn't exist"
       else
-        @unconnected_vertices.delete first_node_id
-        @vertex_degrees[first_node_id] += 1
-        @unconnected_vertices.delete second_node_id
-        @vertex_degrees[second_node_id] += 1
-        @edges << [first_node_id, second_node_id].sort
+        @unconnected_vertices.delete first_vertex_id
+        @vertex_degrees[first_vertex_id] += 1
+        @unconnected_vertices.delete second_vertex_id
+        @vertex_degrees[second_vertex_id] += 1
+        @edges << [first_vertex_id, second_vertex_id].sort
       end
     end
     
-    def edge_between?(first_node_id, second_node_id)
-      @edges.include? [first_node_id, second_node_id]
+    def edge_between?(first_vertex_id, second_vertex_id)
+      @edges.include? [first_vertex_id, second_vertex_id]
     end
     
     # The number of vertices without edges
@@ -58,8 +58,8 @@ module Graphshaper
       @unconnected_vertices.length
     end
     
-    def vertex_degree_for(node_id)
-      @vertex_degrees[node_id]
+    def vertex_degree_for(vertex_id)
+      @vertex_degrees[vertex_id]
     end
     
     def degree_distribution
@@ -74,21 +74,21 @@ module Graphshaper
       degree_distribution
     end
     
-    def calculate_node_degree_for(node_id)
-      @vertex_degrees[node_id]
+    def calculate_vertex_degree_for(vertex_id)
+      @vertex_degrees[vertex_id]
     end
     
     def sum_of_all_degrees
       @edges.length * 2
     end
     
-    def each_node_with_preferential_attachment(&block)
+    def each_vertex_with_preferential_attachment(&block)
       if sum_of_all_degrees > 0
         preferential_attachments = @vertex_degrees.map { |degree| degree.round(1) / sum_of_all_degrees }
-        node_id = 0
+        vertex_id = 0
         preferential_attachments.each do |preferential_attachment|
-          block.call node_id, preferential_attachment
-          node_id += 1
+          block.call vertex_id, preferential_attachment
+          vertex_id += 1
         end
       end
     end
