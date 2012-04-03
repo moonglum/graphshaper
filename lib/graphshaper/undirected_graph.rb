@@ -82,14 +82,16 @@ module Graphshaper
       @edges.length * 2
     end
     
-    def each_preferential_attachment(&block)
+    def each_node_with_preferential_attachment(&block)
       if sum_of_all_degrees > 0
         preferential_attachments = @vertex_degrees.map { |degree| degree.round(1) / sum_of_all_degrees }
-        # @vertex_degrees.length.times do |vertex_id|
+        node_id = 0
         preferential_attachments.each do |preferential_attachment|
-          block.call preferential_attachment
+          block.call node_id, preferential_attachment
+          node_id += 1
         end
       end
     end
+
   end
 end
