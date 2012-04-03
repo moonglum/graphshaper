@@ -133,15 +133,7 @@ module Graphshaper
       end
       degree_distribution
     end
-    
-    # Return the vertex degree for the node with the given ID.
-    #
-    # @param [Integer] vertex_id
-    # @return [Integer] Degree of the given vertex
-    def calculate_vertex_degree_for(vertex_id)
-      @vertex_degrees[vertex_id]
-    end
-    
+        
     # Return the sum of all degrees.
     #
     # @return [Integer] Sum of all degrees

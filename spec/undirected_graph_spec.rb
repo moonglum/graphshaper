@@ -101,14 +101,14 @@ describe Graphshaper::UndirectedGraph do
     
     it "should calculate the degree of 0 for every vertex in a graph without edges" do
       5.times do |vertex_id|
-        @graph.calculate_vertex_degree_for(vertex_id).should ==0
+        @graph.vertex_degree_for(vertex_id).should ==0
       end
     end
     
     it "should calculate the degree for a vertex with two edges" do
       @graph.add_edge 0,1
       @graph.add_edge 1,2
-      @graph.calculate_vertex_degree_for(1).should ==2
+      @graph.vertex_degree_for(1).should ==2
     end
     
     it "should calculate the sum of all degrees" do
