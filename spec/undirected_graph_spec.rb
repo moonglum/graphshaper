@@ -1,10 +1,20 @@
 require "spec_helper"
+require "stringio" # for testing the logger
 
 describe Graphshaper::UndirectedGraph do
   it "should create a graph with a given number of vertices and no edges" do
     graph = Graphshaper::UndirectedGraph.new 5
     graph.order.should ==(5)
     graph.size.should ==(0)
+  end
+  
+  it "should create a graph with a logger for edge creation" do
+    edge_creation_logger = StringIO.new
+    graph = Graphshaper::UndirectedGraph.new 5, edge_creation_logger: edge_creation_logger
+    
+    graph.add_edge 1,3
+    graph.add_edge 2,3
+    edge_creation_logger.string.should ==("1,3\n2,3\n")
   end
   
   describe "initialized graph" do
@@ -148,6 +158,5 @@ describe Graphshaper::UndirectedGraph do
       # Two additional edges
       @graph.size.should ==(3)
     end
-    
   end
 end

@@ -1,10 +1,14 @@
 module Graphshaper
   class UndirectedGraph
     # Create a graph with a given number of vertices
-    def initialize(number_of_vertices)
+    def initialize(number_of_vertices, options_hash = {})
       @vertex_degrees = [0] * number_of_vertices
       @edges = Set.new
       @unconnected_vertices = Set.new (0...number_of_vertices).to_a
+      
+      if options_hash.has_key? :edge_creation_logger
+        @edge_creation_logger = options_hash[:edge_creation_logger]
+      end
     end
     
     def UndirectedGraph.without_orphans_with_order_of(number_of_vertices)
@@ -52,6 +56,8 @@ module Graphshaper
         @unconnected_vertices.delete second_vertex_id
         @vertex_degrees[second_vertex_id] += 1
         @edges << [first_vertex_id, second_vertex_id].sort
+        
+        @edge_creation_logger << "#{first_vertex_id},#{second_vertex_id}\n" if @edge_creation_logger
       end
     end
     
