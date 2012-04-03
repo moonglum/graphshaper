@@ -18,7 +18,9 @@ Or install it yourself as:
 
 ## Usage
 
-Not yet usable.
+The commandline tool expects one argument: The number of nodes you want your generated graph to have. For example:
+
+    graphshaper 50
 
 ## Contributing
 
