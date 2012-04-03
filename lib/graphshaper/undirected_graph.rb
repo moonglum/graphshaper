@@ -73,5 +73,23 @@ module Graphshaper
       end
       degree_distribution
     end
+    
+    def calculate_node_degree_for(node_id)
+      @vertex_degrees[node_id]
+    end
+    
+    def sum_of_all_degrees
+      @edges.length * 2
+    end
+    
+    def each_preferential_attachment(&block)
+      if sum_of_all_degrees > 0
+        preferential_attachments = @vertex_degrees.map { |degree| degree.round(1) / sum_of_all_degrees }
+        # @vertex_degrees.length.times do |vertex_id|
+        preferential_attachments.each do |preferential_attachment|
+          block.call preferential_attachment
+        end
+      end
+    end
   end
 end

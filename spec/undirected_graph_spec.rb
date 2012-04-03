@@ -83,4 +83,55 @@ describe Graphshaper::UndirectedGraph do
       @graph.number_of_orphans.should ==(0)
     end
   end
+  
+  describe "calculating the node's degree and preferential attachment" do
+    before :each do
+      @graph = Graphshaper::UndirectedGraph.new 5
+    end
+    
+    it "should calculate the degree of 0 for every vertex in a graph without edges" do
+      5.times do |node_id|
+        @graph.calculate_node_degree_for(node_id).should ==0
+      end
+    end
+    
+    it "should calculate the degree for a vertex with two edges" do
+      @graph.add_edge 0,1
+      @graph.add_edge 1,2
+      @graph.calculate_node_degree_for(1).should ==2
+    end
+    
+    it "should calculate the sum of all degrees" do
+      @graph.add_edge 0,1
+      @graph.add_edge 1,2
+      @graph.sum_of_all_degrees.should ==4
+    end
+    
+    it "should provide an iterator for preferential attachments that sums up to 0 for a graph without edges" do
+      sum = 0
+      @graph.each_preferential_attachment do |preferential_attachment|
+        sum += preferential_attachment
+      end
+      sum.should ==0
+    end
+    
+    it "should calculate the preferential attachments in a way that their sum is always 1 when there is at least one edge" do
+      sum = 0
+      @graph.add_edge 0,1
+      @graph.each_preferential_attachment do |preferential_attachment|
+        sum += preferential_attachment
+      end
+      sum.should ==1
+    end
+    
+    it "should add up the preferential attachments to one even if edges are added in the block" do
+      sum = 0
+      @graph.add_edge 0,1
+      @graph.each_preferential_attachment do |preferential_attachment|
+        @graph.add_edge 1,3 if @graph.size < 2
+        sum += preferential_attachment
+      end
+      sum.should ==1
+    end
+  end
 end
