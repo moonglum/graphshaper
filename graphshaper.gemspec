@@ -16,5 +16,6 @@ Gem::Specification.new do |gem|
   gem.version       = Graphshaper::VERSION
   
   gem.add_development_dependency "rake", "~> 0.9.2.2"
-  gem.add_development_dependency 'rspec', "~> 2.9.0"
+  gem.add_development_dependency "rspec", "~> 2.9.0"
+  gem.add_development_dependency "yard", "~> 0.7.5"
 end

@@ -2,7 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/moonglum/graphshaper.png?branch=master)](http://travis-ci.org/moonglum/graphshaper)
 
-Graphshaper can generate realistic, scale-free graphs of any size.
+Graphshaper can generate realistic, scale-free graphs of any size. It is tested with MRI Ruby (1.9.2. and 1.9.3) and the 1.9 versions of jRuby and Rubinius.
 
 ## Installation
 
@@ -24,7 +24,7 @@ The commandline tool expects one argument: The number of nodes you want your gen
 
     graphshaper 50
 
-You can also use the `Graphshaper::UndirectedGraph` class in your Rubycode. To find examples on how to do that please refer to the specs.
+You can also use the library in your Ruby Code. You can find the documentation [here](http://rubydoc.info/github/moonglum/graphshaper).
 
 ## Contributing
 
