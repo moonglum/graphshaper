@@ -4,8 +4,8 @@ require File.expand_path('../lib/graphshaper/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Lucas Dohmen"]
   gem.email         = ["me@moonglum.net"]
-  gem.description   = %q{Graphshaper generates graphs for databases}
-  gem.summary       = %q{Graphshaper can generate realistic, scale-free graphs of any size. The resulting graph can then be saved into different kinds of databases.}
+  gem.description   = %q{Generate realistic graphs}
+  gem.summary       = %q{Graphshaper can generate realistic, scale-free graphs of any size.}
   gem.homepage      = "http://github.com/moonglum/graphshaper"
 
   gem.files         = `git ls-files`.split($\)
@@ -15,5 +15,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Graphshaper::VERSION
   
-  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rspec', "~> 2.9.0"
 end

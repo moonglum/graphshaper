@@ -1,6 +1,6 @@
 # Graphshaper
 
-Graphshaper can generate realistic, scale-free graphs of any size. The resulting graph can then be saved into different kinds of databases.
+Graphshaper can generate realistic, scale-free graphs of any size.
 
 ## Installation
 
