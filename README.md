@@ -22,6 +22,8 @@ The commandline tool expects one argument: The number of nodes you want your gen
 
     graphshaper 50
 
+You can also use the `Graphshaper::UndirectedGraph` class in your Rubycode. To find examples on how to do that please refer to the specs.
+
 ## Contributing
 
 1. Fork it
