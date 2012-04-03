@@ -30,9 +30,15 @@ module Graphshaper
       @edges.length
     end
     
-    def add_vertex
-      @vertex_degrees << @number_of_vertices
-      @unconnected_vertices.add @number_of_vertices
+    def add_vertex(&block)
+      @vertex_degrees << 0
+      
+      new_vertex_id = @vertex_degrees.length - 1
+      if block_given? 
+        each_vertex_with_preferential_attachment do |vertex_id, preferential_attachment|
+          add_edge new_vertex_id, vertex_id if block.call(preferential_attachment)
+        end
+      end
     end
     
     def add_edge(first_vertex_id, second_vertex_id)

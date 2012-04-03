@@ -133,5 +133,21 @@ describe Graphshaper::UndirectedGraph do
       end
       sum.should ==1
     end
+    
+    it "should add a vertex to the graph with edges according to preferential attachment" do
+      @graph.add_edge 0,1
+      
+      # Two nodes with preferential_attachment of 0.5, all others with 0
+      @graph.add_vertex do |preferential_attachment|
+        preferential_attachment > 0.4
+      end
+      
+      # One more node
+      @graph.order.should ==(6)
+      
+      # Two additional edges
+      @graph.size.should ==(3)
+    end
+    
   end
 end
