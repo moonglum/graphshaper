@@ -15,5 +15,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Graphshaper::VERSION
   
+  gem.add_development_dependency "rake", "~> 0.9.2.2"
   gem.add_development_dependency 'rspec', "~> 2.9.0"
 end
