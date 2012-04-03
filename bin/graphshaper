@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'graphshaper'
+
+inner_nodes = 20
+number_of_nodes = ARGV[0].to_i
+
+graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of 20, edge_creation_logger: STDOUT
+(number_of_nodes - inner_nodes).times do
+  graph.add_vertex do |preferential_attachment|
+    preferential_attachment > rand
+  end
+end

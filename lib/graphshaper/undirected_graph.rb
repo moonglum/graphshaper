@@ -1,3 +1,5 @@
+require "set"
+
 module Graphshaper
   class UndirectedGraph
     # Create a graph with a given number of vertices
@@ -11,8 +13,8 @@ module Graphshaper
       end
     end
     
-    def UndirectedGraph.without_orphans_with_order_of(number_of_vertices)
-      graph = self.new number_of_vertices
+    def UndirectedGraph.without_orphans_with_order_of(number_of_vertices, options_hash = {})
+      graph = self.new number_of_vertices, options_hash
       
       while graph.number_of_orphans > 0
         a = rand(graph.order)
