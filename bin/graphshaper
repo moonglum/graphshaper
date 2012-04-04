@@ -4,14 +4,34 @@ require 'graphshaper'
 
 if ARGV.length == 0 || ARGV[0] == "--help"
   puts "  Usage: graphshaper SIZE"
+elsif ARGV[0].to_i < 21
+  puts "Please choose a size of at least 21"
 else
-  inner_vertices = 20
   number_of_vertices = ARGV[0].to_i
+  inner_vertices = 20
   
-  graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of 20, edge_creation_logger: STDOUT
+  edge_output_file = File.new "edges.csv", "w"
+  vertex_output_file = File.new "vertices.csv", "w"
+  
+  start_time = Time.now
+  graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of inner_vertices, edge_creation_logger: edge_output_file, vertex_creation_logger: vertex_output_file
   (number_of_vertices - inner_vertices).times do
     graph.add_vertex do |preferential_attachment|
       preferential_attachment > rand
     end
+  end
+  end_time = Time.now
+  
+  ellapsed_time = end_time - start_time
+  
+  puts "#{graph.order} vertices (saved to vertices.csv)"
+  puts "#{graph.size} edges (saved to edges.csv)"
+  
+  if ellapsed_time < 2
+    puts "Generated in about one second"
+  elsif ellapsed_time < 60
+    puts "Generated in about #{ellapsed_time.round} seconds"
+  else
+    puts "Generated in about #{ellapsed_time.round / 60} minutes and #{ellapsed_time.round % 60} seconds"
   end
 end
