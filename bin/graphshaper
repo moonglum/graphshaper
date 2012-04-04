@@ -14,8 +14,10 @@ else
   edge_output_file = File.new "edges.csv", "w"
   logger = Graphshaper::LoggingAdapter.new vertex_output_file, edge_output_file
   
+  avocado_db = Graphshaper::AvocadoDbAdapter.new "vertices", "edges"
+  
   start_time = Time.now
-  graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of inner_vertices, adapters: [logger]
+  graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of inner_vertices, adapters: [logger, avocado_db]
   (number_of_vertices - inner_vertices).times do
     graph.add_vertex do |preferential_attachment|
       preferential_attachment > rand
@@ -29,10 +31,10 @@ else
   puts "#{graph.size} edges (saved to edges.csv)"
   
   if ellapsed_time < 2
-    puts "Generated in about one second"
+    puts "Generated and saved in about one second"
   elsif ellapsed_time < 60
-    puts "Generated in about #{ellapsed_time.round} seconds"
+    puts "Generated and saved in about #{ellapsed_time.round} seconds"
   else
-    puts "Generated in about #{ellapsed_time.round / 60} minutes and #{ellapsed_time.round % 60} seconds"
+    puts "Generated and saved in about #{ellapsed_time.round / 60} minutes and #{ellapsed_time.round % 60} seconds"
   end
 end
