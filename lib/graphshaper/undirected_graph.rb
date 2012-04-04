@@ -10,14 +10,16 @@ module Graphshaper
     # @param [Integer] number_of_vertices The number of vertices that the generated graph should have
     # @param [Hash] options_hash The options to create an undirected graph
     # @option options_hash [IO] :edge_creation_logger An IO object that should log every edge creation in the graph (default: no logging)
+    # @option options_hash [IO] ::vertex_creation_logger An IO object that should log every vertex creation in the graph (default: no logging)
     def initialize(number_of_vertices, options_hash = {})
-      @vertex_degrees = [0] * number_of_vertices
-      @edges = Set.new
-      @unconnected_vertices = Set.new (0...number_of_vertices).to_a
+      @edge_creation_logger = options_hash[:edge_creation_logger] if options_hash.has_key? :edge_creation_logger
+      @vertex_creation_logger = options_hash[:vertex_creation_logger] if options_hash.has_key? :vertex_creation_logger
       
-      if options_hash.has_key? :edge_creation_logger
-        @edge_creation_logger = options_hash[:edge_creation_logger]
-      end
+      @vertex_degrees = []
+      @unconnected_vertices = Set.new
+      
+      number_of_vertices.times { add_vertex }
+      @edges = Set.new
     end
     
     # Create a graph with a given number of vertices. Then it adds random edges until the graph doesn't contain any orphans (vertices without edges).
@@ -25,15 +27,16 @@ module Graphshaper
     # @param [Integer] number_of_vertices The number of vertices that the generated graph should have
     # @param [Hash] options_hash The options to create an undirected graph
     # @option options_hash [IO] :edge_creation_logger An IO object that should log every edge creation in the graph (default: no logging)
+    # @option options_hash [IO] ::vertex_creation_logger An IO object that should log every vertex creation in the graph (default: no logging)
     # @return [UndirectedGraph] The generated graph.
     def UndirectedGraph.without_orphans_with_order_of(number_of_vertices, options_hash = {})
       graph = self.new number_of_vertices, options_hash
       
       while graph.number_of_orphans > 0
-        a = rand(graph.order)
-        while a == (b = rand(graph.order)); end
+        vertex_orphan = graph.orphans.shuffle.first
+        while vertex_orphan == (random_vertex = rand(graph.order)); end
         
-        graph.add_edge a, b
+        graph.add_edge vertex_orphan, random_vertex
       end
       
       return graph
@@ -62,9 +65,13 @@ module Graphshaper
     # 
     # @return [Integer] ID of the newly created vertex.
     def add_vertex(&block)
-      @vertex_degrees << 0
+      new_vertex_id = @vertex_degrees.length
       
-      new_vertex_id = @vertex_degrees.length - 1
+      @vertex_degrees << 0
+      @unconnected_vertices << new_vertex_id
+      
+      @vertex_creation_logger << "#{new_vertex_id}\n" if @vertex_creation_logger
+      
       if block_given? 
         each_vertex_with_preferential_attachment do |vertex_id, preferential_attachment|
           add_edge new_vertex_id, vertex_id if block.call(preferential_attachment)
@@ -108,7 +115,14 @@ module Graphshaper
     #
     # @return [Integer] Number of vertices without edges.
     def number_of_orphans
-      @unconnected_vertices.length
+      @unconnected_vertices.to_a.length
+    end
+    
+    # The vertices without edges as an array.
+    #
+    # @return [Array<Integer>] IDs of the Vertices without edges.
+    def orphans
+      @unconnected_vertices.to_a
     end
     
     # Return the vertex degree for the vertex with the given ID.
