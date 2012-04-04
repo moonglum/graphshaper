@@ -1,40 +1,67 @@
 #!/usr/bin/env ruby
 
 require 'graphshaper'
+require 'optparse'
 
-if ARGV.length == 0 || ARGV[0] == "--help"
-  puts "  Usage: graphshaper SIZE"
-elsif ARGV[0].to_i < 21
-  puts "Please choose a size of at least 21"
-else
-  number_of_vertices = ARGV[0].to_i
-  inner_vertices = 20
+options = {}
+
+optparse = OptionParser.new do |opts|
+  opts.banner = "Usage: graphshaper [options] size"
   
+  opts.on("-a", "--avocado", "Store the graph in a local AvocadoDB instance") do |avocado|
+    options[:avocado] = avocado
+  end
+  
+  opts.on("-l", "--log", "Store the graph in two CSV files for nodes and edges") do |log|
+    options[:log] = log
+  end
+  
+  opts.on_tail("--version", "Show version") do
+    puts Graphshaper::VERSION
+    exit
+  end
+  
+  opts.parse!
+end
+
+if ARGV.length == 0
+  puts "Please enter a size for your graph."
+  exit
+end
+
+number_of_vertices = ARGV.first.to_i
+inner_vertices = 20
+  
+adapters = []
+  
+if options[:log]
   vertex_output_file = File.new "vertices.csv", "w"
   edge_output_file = File.new "edges.csv", "w"
-  logger = Graphshaper::LoggingAdapter.new vertex_output_file, edge_output_file
+  adapters << Graphshaper::LoggingAdapter.new(vertex_output_file, edge_output_file)
+end
+
+if options[:avocado]
+  adapters << Graphshaper::AvocadoDbAdapter.new("vertices", "edges")
+end
+
+start_time = Time.now
+
+graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of inner_vertices, adapters: adapters
+(number_of_vertices - inner_vertices).times do
+  graph.add_vertex { |preferential_attachment| preferential_attachment > rand }
+end
+
+ellapsed_time = Time.now - start_time
   
-  avocado_db = Graphshaper::AvocadoDbAdapter.new "vertices", "edges"
-  
-  start_time = Time.now
-  graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of inner_vertices, adapters: [logger, avocado_db]
-  (number_of_vertices - inner_vertices).times do
-    graph.add_vertex do |preferential_attachment|
-      preferential_attachment > rand
-    end
-  end
-  end_time = Time.now
-  
-  ellapsed_time = end_time - start_time
-  
-  puts "#{graph.order} vertices (saved to vertices.csv)"
-  puts "#{graph.size} edges (saved to edges.csv)"
-  
-  if ellapsed_time < 2
-    puts "Generated and saved in about one second"
-  elsif ellapsed_time < 60
-    puts "Generated and saved in about #{ellapsed_time.round} seconds"
-  else
-    puts "Generated and saved in about #{ellapsed_time.round / 60} minutes and #{ellapsed_time.round % 60} seconds"
-  end
+print "#{graph.order} vertices and #{graph.size} edges generated"
+
+print " and saved into AvocadoDB" if options[:avocado]
+print " and logged" if options[:log]
+
+if ellapsed_time < 2
+  puts " in about one second"
+elsif ellapsed_time < 60
+  puts " in about #{ellapsed_time.round} seconds"
+else
+  puts " in about #{ellapsed_time.round / 60} minutes and #{ellapsed_time.round % 60} seconds"
 end
