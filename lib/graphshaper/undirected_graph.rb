@@ -9,12 +9,9 @@ module Graphshaper
     # 
     # @param [Integer] number_of_vertices The number of vertices that the generated graph should have
     # @param [Hash] options_hash The options to create an undirected graph
-    # @option options_hash [IO] :edge_creation_logger An IO object that should log every edge creation in the graph (default: no logging)
-    # @option options_hash [IO] ::vertex_creation_logger An IO object that should log every vertex creation in the graph (default: no logging)
-    def initialize(number_of_vertices, options_hash = {})
-      @edge_creation_logger = options_hash[:edge_creation_logger] if options_hash.has_key? :edge_creation_logger
-      @vertex_creation_logger = options_hash[:vertex_creation_logger] if options_hash.has_key? :vertex_creation_logger
-      
+    def initialize(number_of_vertices)
+      # Initialize Adapters here
+
       @vertex_degrees = []
       @unconnected_vertices = Set.new
       
@@ -26,11 +23,9 @@ module Graphshaper
     # 
     # @param [Integer] number_of_vertices The number of vertices that the generated graph should have
     # @param [Hash] options_hash The options to create an undirected graph
-    # @option options_hash [IO] :edge_creation_logger An IO object that should log every edge creation in the graph (default: no logging)
-    # @option options_hash [IO] ::vertex_creation_logger An IO object that should log every vertex creation in the graph (default: no logging)
     # @return [UndirectedGraph] The generated graph.
-    def UndirectedGraph.without_orphans_with_order_of(number_of_vertices, options_hash = {})
-      graph = self.new number_of_vertices, options_hash
+    def UndirectedGraph.without_orphans_with_order_of(number_of_vertices)
+      graph = self.new number_of_vertices
       
       while graph.number_of_orphans > 0
         vertex_orphan = graph.orphans.shuffle.first
@@ -70,7 +65,7 @@ module Graphshaper
       @vertex_degrees << 0
       @unconnected_vertices << new_vertex_id
       
-      @vertex_creation_logger << "#{new_vertex_id}\n" if @vertex_creation_logger
+      # Iterate the adapters here
       
       if block_given? 
         each_vertex_with_preferential_attachment do |vertex_id, preferential_attachment|
@@ -98,7 +93,7 @@ module Graphshaper
         @vertex_degrees[second_vertex_id] += 1
         @edges << [first_vertex_id, second_vertex_id].sort
         
-        @edge_creation_logger << "#{first_vertex_id},#{second_vertex_id}\n" if @edge_creation_logger
+        # Iterate the adapters here
       end
     end
     

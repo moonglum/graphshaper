@@ -8,23 +8,6 @@ describe Graphshaper::UndirectedGraph do
     graph.size.should ==(0)
   end
   
-  it "should create a graph with a logger for edge creation" do
-    edge_creation_logger = StringIO.new
-    graph = Graphshaper::UndirectedGraph.new 5, edge_creation_logger: edge_creation_logger
-    
-    graph.add_edge 1,3
-    graph.add_edge 2,3
-    edge_creation_logger.string.should ==("1,3\n2,3\n")
-  end
-  
-  it "should create a graph with a logger for vertex creation" do
-    vertex_creation_logger = StringIO.new
-    graph = Graphshaper::UndirectedGraph.new 5, vertex_creation_logger: vertex_creation_logger
-    
-    graph.add_vertex
-    vertex_creation_logger.string.should ==("0\n1\n2\n3\n4\n5\n")
-  end
-  
   describe "initialized graph" do
     before :each do
       @graph = Graphshaper::UndirectedGraph.new 5
@@ -167,4 +150,23 @@ describe Graphshaper::UndirectedGraph do
       @graph.size.should ==(3)
     end
   end
+  
+  # describe "Logging Adapter" do
+  #   it "should create a graph with a logger for edge creation" do
+  #     edge_creation_logger = StringIO.new
+  #     graph = Graphshaper::UndirectedGraph.new 5, edge_creation_logger: edge_creation_logger
+  #   
+  #     graph.add_edge 1,3
+  #     graph.add_edge 2,3
+  #     edge_creation_logger.string.should ==("edge_id,from_id,to_id\n0,1,3\n1,2,3\n")
+  #   end
+  #   
+  #   it "should create a graph with a logger for vertex creation" do
+  #     vertex_creation_logger = StringIO.new
+  #     graph = Graphshaper::UndirectedGraph.new 5, vertex_creation_logger: vertex_creation_logger
+  #   
+  #     graph.add_vertex
+  #     vertex_creation_logger.string.should ==("vertex_id\n0\n1\n2\n3\n4\n5\n")
+  #   end
+  # end
 end
