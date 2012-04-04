@@ -20,9 +20,17 @@ Or install it yourself as:
 
 ## Usage
 
-The commandline tool expects one argument: The number of vertices you want your generated graph to have. This will result in two CSV files containing your vertices and edges. For example:
+The commandline tool expects one argument: The number of vertices you want your generated graph to have. This is how to use it:
 
-    graphshaper 50
+    graphshaper [options] size
+
+You can use the following options:
+
+* `-a`, `--avocado`: Store the graph in a local AvocadoDB instance
+* `-l`, `--log`: Store the graph in two CSV files for nodes and edges
+* `-d`, `--dot`: Store the graph in the dot format
+* `-p`, `--png`: Export the graph as a PNG (you need to install graphviz for that – circo is used for the layout)
+* `--version`: Show version
 
 You can also use the library in your Ruby Code. You can find the documentation [here](http://rubydoc.info/github/moonglum/graphshaper).
 

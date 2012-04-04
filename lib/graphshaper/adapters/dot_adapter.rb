@@ -2,7 +2,7 @@ module Graphshaper
   class DotAdapter
     def initialize(output_file)
       @output_file = output_file
-      @output_file << "digraph genereated_graph { \n  rankdir=LR;\n  node [shape = circle];\n"
+      @output_file << "digraph genereated_graph { \n  rankdir=LR;\n  node [shape = circle];\n  edge [dir=none];\n"
     end
     
     def close

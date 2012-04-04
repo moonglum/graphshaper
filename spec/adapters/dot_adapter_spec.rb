@@ -7,7 +7,7 @@ describe Graphshaper::DotAdapter do
   end
   
   it "should write a header into the file" do
-    @output_file.should_receive(:<<).with("digraph genereated_graph { \n  rankdir=LR;\n  node [shape = circle];\n")
+    @output_file.should_receive(:<<).with("digraph genereated_graph { \n  rankdir=LR;\n  node [shape = circle];\n  edge [dir=none];\n")
     Graphshaper::DotAdapter.new @output_file
   end
   
