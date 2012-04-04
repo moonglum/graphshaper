@@ -16,6 +16,10 @@ optparse = OptionParser.new do |opts|
     options[:log] = log
   end
   
+  opts.on("-d", "--dot", "Store the graph in the dot format") do |dot|
+    options[:dot] = dot
+  end
+  
   opts.on_tail("--version", "Show version") do
     puts Graphshaper::VERSION
     exit
@@ -44,6 +48,12 @@ if options[:avocado]
   adapters << Graphshaper::AvocadoDbAdapter.new("vertices", "edges")
 end
 
+if options[:dot]
+  dot_output_file = File.new "generated_graph.dot", "w"
+  dot_adapter = Graphshaper::DotAdapter.new(dot_output_file)
+  adapters << dot_adapter
+end
+
 start_time = Time.now
 
 graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of inner_vertices, adapters: adapters
@@ -51,12 +61,15 @@ graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of inner_vertice
   graph.add_vertex { |preferential_attachment| preferential_attachment > rand }
 end
 
+dot_adapter.close if options[:dot]
+
 ellapsed_time = Time.now - start_time
   
 print "#{graph.order} vertices and #{graph.size} edges generated"
 
 print " and saved into AvocadoDB" if options[:avocado]
 print " and logged" if options[:log]
+print " and generated as a dot" if options[:dot]
 
 if ellapsed_time < 2
   puts " in about one second"
