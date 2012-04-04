@@ -24,9 +24,10 @@ module Graphshaper
     # 
     # @param [Integer] number_of_vertices The number of vertices that the generated graph should have
     # @param [Hash] options_hash The options to create an undirected graph
+    # @option options_hash [Array<Object>] :adapters An array of adapters you want to use
     # @return [UndirectedGraph] The generated graph.
-    def UndirectedGraph.without_orphans_with_order_of(number_of_vertices)
-      graph = self.new number_of_vertices
+    def UndirectedGraph.without_orphans_with_order_of(number_of_vertices, options_hash = {})
+      graph = self.new number_of_vertices, options_hash
       
       while graph.number_of_orphans > 0
         vertex_orphan = graph.orphans.shuffle.first

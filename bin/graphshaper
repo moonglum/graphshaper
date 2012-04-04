@@ -10,11 +10,12 @@ else
   number_of_vertices = ARGV[0].to_i
   inner_vertices = 20
   
-  edge_output_file = File.new "edges.csv", "w"
   vertex_output_file = File.new "vertices.csv", "w"
+  edge_output_file = File.new "edges.csv", "w"
+  logger = Graphshaper::LoggingAdapter.new vertex_output_file, edge_output_file
   
   start_time = Time.now
-  graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of inner_vertices, edge_creation_logger: edge_output_file, vertex_creation_logger: vertex_output_file
+  graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of inner_vertices, adapters: [logger]
   (number_of_vertices - inner_vertices).times do
     graph.add_vertex do |preferential_attachment|
       preferential_attachment > rand
