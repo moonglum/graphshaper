@@ -151,6 +151,33 @@ describe Graphshaper::UndirectedGraph do
     end
   end
   
+  describe "Adapter Support" do
+    before :each do
+      @adapter = double()
+      @adapter.stub :add_vertex
+      @adapter.stub :add_edge
+    end
+    
+    it "should tell the adapter about the inital vertices on creation" do
+      5.times do |vertex_id|
+        @adapter.should_receive(:add_vertex).with(vertex_id)
+      end
+      graph = Graphshaper::UndirectedGraph.new 5, adapters: [@adapter]
+    end
+    
+    it "should tell the adapter about later added vertices" do
+      graph = Graphshaper::UndirectedGraph.new 5, adapters: [@adapter]
+      @adapter.should_receive(:add_vertex).with(5)
+      graph.add_vertex
+    end
+    
+    it "should tell the adapter about later added edges" do
+      graph = Graphshaper::UndirectedGraph.new 5, adapters: [@adapter]
+      @adapter.should_receive(:add_edge).with(0, 1, 2)
+      graph.add_edge 1, 2
+    end
+  end
+  
   # describe "Logging Adapter" do
   #   it "should create a graph with a logger for edge creation" do
   #     edge_creation_logger = StringIO.new

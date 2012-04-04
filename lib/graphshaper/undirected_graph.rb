@@ -9,8 +9,9 @@ module Graphshaper
     # 
     # @param [Integer] number_of_vertices The number of vertices that the generated graph should have
     # @param [Hash] options_hash The options to create an undirected graph
-    def initialize(number_of_vertices)
-      # Initialize Adapters here
+    # @option options_hash [Array<Object>] :adapters An array of adapters you want to use
+    def initialize(number_of_vertices, options_hash = {})
+      @adapters = options_hash[:adapters] if options_hash.has_key? :adapters
 
       @vertex_degrees = []
       @unconnected_vertices = Set.new
@@ -65,7 +66,11 @@ module Graphshaper
       @vertex_degrees << 0
       @unconnected_vertices << new_vertex_id
       
-      # Iterate the adapters here
+      unless @adapters.nil?
+        @adapters.each do |adapter|
+          adapter.add_vertex new_vertex_id
+        end
+      end
       
       if block_given? 
         each_vertex_with_preferential_attachment do |vertex_id, preferential_attachment|
@@ -93,7 +98,11 @@ module Graphshaper
         @vertex_degrees[second_vertex_id] += 1
         @edges << [first_vertex_id, second_vertex_id].sort
         
-        # Iterate the adapters here
+        unless @adapters.nil?
+          @adapters.each do |adapter|
+            adapter.add_edge @edges.length - 1, first_vertex_id, second_vertex_id
+          end
+        end
       end
     end
     
