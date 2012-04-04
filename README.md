@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-The commandline tool expects one argument: The number of nodes you want your generated graph to have. For example:
+The commandline tool expects one argument: The number of vertices you want your generated graph to have. For example:
 
     graphshaper 50
 

@@ -74,7 +74,7 @@ module Graphshaper
       new_vertex_id
     end
     
-    # Add a new edge to the graph between two existing nodes.
+    # Add a new edge to the graph between two existing vertices.
     # 
     # @param [Integer] first_vertex_id
     # @param [Integer] second_vertex_id
@@ -111,7 +111,7 @@ module Graphshaper
       @unconnected_vertices.length
     end
     
-    # Return the vertex degree for the node with the given ID.
+    # Return the vertex degree for the vertex with the given ID.
     #
     # @param [Integer] vertex_id
     # @return [Integer] Degree of the given vertex
