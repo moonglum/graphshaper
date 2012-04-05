@@ -65,7 +65,8 @@ end
 
 start_time = Time.now
 
-graph = Graphshaper::UndirectedGraph.without_orphans_with_order_of inner_vertices, adapters: adapters
+graph = Graphshaper::UndirectedGraph.new inner_vertices, adapters: adapters
+graph.connect_all_vertices
 (number_of_vertices - inner_vertices).times do
   graph.add_vertex { |preferential_attachment| preferential_attachment > rand }
 end

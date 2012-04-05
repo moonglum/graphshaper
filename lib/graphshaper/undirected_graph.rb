@@ -20,25 +20,6 @@ module Graphshaper
       @edges = Set.new
     end
     
-    # Create a graph with a given number of vertices. Then it adds random edges until the graph doesn't contain any orphans (vertices without edges).
-    # 
-    # @param [Integer] number_of_vertices The number of vertices that the generated graph should have
-    # @param [Hash] options_hash The options to create an undirected graph
-    # @option options_hash [Array<Object>] :adapters An array of adapters you want to use
-    # @return [UndirectedGraph] The generated graph.
-    def UndirectedGraph.without_orphans_with_order_of(number_of_vertices, options_hash = {})
-      graph = self.new number_of_vertices, options_hash
-      
-      while graph.number_of_orphans > 0
-        vertex_orphan = graph.orphans.shuffle.first
-        while vertex_orphan == (random_vertex = rand(graph.order)); end
-        
-        graph.add_edge vertex_orphan, random_vertex
-      end
-      
-      return graph
-    end
-    
     # The number of vertices.
     #
     # @return [Integer] Number of vertices.
@@ -51,6 +32,16 @@ module Graphshaper
     # @return [Integer] Number of edges.
     def size
       @edges.length
+    end
+    
+    # Connect all orphans with existing nodes
+    def connect_all_vertices
+      while number_of_orphans > 0
+        vertex_orphan = orphans.shuffle.first
+        while vertex_orphan == (random_vertex = rand(order)); end
+        
+        add_edge vertex_orphan, random_vertex
+      end
     end
     
     # Add a new vertex to the graph.
