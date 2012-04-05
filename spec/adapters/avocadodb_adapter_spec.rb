@@ -1,4 +1,5 @@
 require "spec_helper"
+require "graphshaper/adapters/avocadodb_adapter"
 
 describe Graphshaper::AvocadoDbAdapter do
   before :each do

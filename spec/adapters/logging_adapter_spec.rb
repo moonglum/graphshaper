@@ -1,4 +1,5 @@
 require "spec_helper"
+require "graphshaper/adapters/logging_adapter"
 
 describe Graphshaper::LoggingAdapter do
   before :each do

@@ -1,4 +1,5 @@
 require "spec_helper"
+require "graphshaper/adapters/dot_adapter.rb"
 
 describe Graphshaper::DotAdapter do
   before :each do

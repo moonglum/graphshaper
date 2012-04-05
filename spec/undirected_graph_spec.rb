@@ -1,4 +1,5 @@
 require "spec_helper"
+require "graphshaper/undirected_graph"
 
 describe Graphshaper::UndirectedGraph do
   it "should create a graph with a given number of vertices and no edges" do
