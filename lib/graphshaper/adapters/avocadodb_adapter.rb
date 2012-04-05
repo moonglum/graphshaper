@@ -16,7 +16,6 @@ module Graphshaper
       [@vertex_collection_name, @edge_collection_name].each { |collection| drop_and_create_collection collection}
     end
     
-    # @return [String] id in the database
     def add_vertex(id)
       cmd = "/document?collection=#{@vertex_collection_name}"
     	body = "{ \"id\" : \"#{id}\" }"
@@ -37,8 +36,8 @@ module Graphshaper
     private
     
     def drop_and_create_collection(name)
-    self.class.delete "/_api/collection/#{name}"
-    self.class.post "/_api/collection", body: "{ \"name\" : \"#{name}\"}"
-  end  
+      self.class.delete "/_api/collection/#{name}"
+      self.class.post "/_api/collection", body: "{ \"name\" : \"#{name}\"}"
+    end
   end
 end
