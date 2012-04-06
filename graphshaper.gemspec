@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["me@moonglum.net"]
   gem.description   = %q{Generate realistic graphs}
   gem.summary       = %q{Graphshaper can generate realistic, scale-free graphs of any size.}
-  gem.homepage      = "http://github.com/moonglum/graphshaper"
+  gem.homepage      = "http://moonglum.github.com/graphshaper"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
