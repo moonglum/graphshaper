@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Graphshaper by moonglum</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/moonglum/graphshaper">Fork Me on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Graphshaper</h1>
+            <h2>Generate realistic graphs</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/moonglum/graphshaper/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/moonglum/graphshaper/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+      <span class="banner-fix"></span>
+
+      <section id="main_content">
+        <h1>So you want to shape a graph...</h1>
+
+<p>Imagine sitting on your computer in desperate need for a graph. You toss and you turn – where do I get a realistic graph? <strong>Graphshaper</strong> to the rescue – your all-in-one solution for generating scale-free networks.</p>
+
+<h2>Why would I ever want to do that?</h2>
+
+<p>I created this gem for my bachelor thesis, where I will implement certain graph algorithms in the new NoSQL database <a href="http://www.avocadodb.org">AvocadoDB</a>. I will compare the performance to existing solutions, therefore I need the same graph in different database systems. And – of course – I need some pretty pictures for my thesis, so I included an export to PNG via dot.</p>
+
+<h2>What do you mean when you say realistic?</h2>
+
+<p>If you would generate a bunch of vertices and then connect them with vertices at random, you don't get a realistic network. Most real world, large networks follow the power-law in their node distribution. To generate a graph that has the same attributes, <strong>graphshaper</strong> uses an algorithm based upon the Barabási-Albert model introduced by R. Albert and A.-L. Barabási in 2002.</p>
+
+<h2>Ok, and how would I generate a graph now?</h2>
+
+<p>First you would install <strong>graphshaper</strong> from ruby gems. You can either do that via <code>gem install graphshaper</code> or – in your bundler file – via <code>gem 'graphshaper', '~&gt; 0.2.2'</code>.
+You can either use <strong>graphshaper</strong> via the command line or in your Ruby code as a library. For the latter I refer you to the <a href="http://rubydoc.info/github/moonglum/graphshaper">documentation</a>. The commandline tool expects one argument: The number of vertices you want your generated graph to have. This is how to use it:</p>
+
+<pre><code>graphshaper [options] size
+</code></pre>
+
+<p>You can use the following options:</p>
+
+<ul>
+<li>
+<code>-a</code>, <code>--avocado</code>: Store the graph in a local AvocadoDB instance</li>
+<li>
+<code>-l</code>, <code>--log</code>: Store the graph in two CSV files for nodes and edges</li>
+<li>
+<code>-d</code>, <code>--dot</code>: Store the graph in the dot format</li>
+<li>
+<code>-p</code>, <code>--png</code>: Export the graph as a PNG (you need to install graphviz for that – circo is used for the layout)</li>
+<li>
+<code>--version</code>: Show version</li>
+</ul><h2>Format Support</h2>
+
+<p>Currently you can only export the graph to CSV, AvocadoDB and the dot format. You can of course use the CSV files to import them into any system, but I will also add support for more systems (MySQL and Neo4j) very soon. If you need any other format or system, feel free to send me a (well rspec'ed) pull request :)</p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/moonglum">moonglum</a> can be found on <a href="https://github.com/moonglum/graphshaper">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
