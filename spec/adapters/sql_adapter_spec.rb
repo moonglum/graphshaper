@@ -40,8 +40,8 @@ describe Graphshaper::SqlAdapter do
       
       edge_string = @edge_file.string
       
-      edge_string.should include("	(1,0,5,6),\n")
-      edge_string.should include("	(2,1,7,8);\n")
+      edge_string.should include("	(1,0,6,7),\n")
+      edge_string.should include("	(2,1,8,9);\n")
     end
   end
   

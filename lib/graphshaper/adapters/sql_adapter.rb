@@ -29,7 +29,7 @@ module Graphshaper
     
     def add_edge(edge_id, from_id, to_id)
       @edge_file << ",\n\t" unless @first_edge
-      @edge_file << "(#{edge_id + 1},#{edge_id},#{from_id},#{to_id})"
+      @edge_file << "(#{edge_id + 1},#{edge_id},#{from_id + 1},#{to_id + 1})"
       @first_edge = false
     end
     
