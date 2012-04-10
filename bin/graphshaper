@@ -38,6 +38,22 @@ if ARGV.length == 0
   exit
 end
 
+# check for installed components: graphviz
+if options[:png] and `which circo` == ""
+  puts "graphviz is not installed, can't export to png. Please install graphviz or run without --png option."
+  exit
+end
+
+# check for running component: AvocadoDB
+if options[:avocado]
+  begin
+    HTTParty.get 'http://localhost:8529'
+  rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+    puts "No AvocadoDB instance is running on port 8529. Please start AvocadoDB or run without --avocado option."
+    exit
+  end
+end
+
 number_of_vertices = ARGV.first.to_i
 inner_vertices = 20
   
