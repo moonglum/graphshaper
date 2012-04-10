@@ -22,6 +22,10 @@ optparse = OptionParser.new do |opts|
     options[:dot] = dot
   end
   
+  opts.on("-s", "--sql", "Store the graph in sql format") do |sql|
+    options[:sql] = sql
+  end
+  
   opts.on("-p", "--png", "Export the graph as a PNG (graphviz must be installed)") do |png|
     options[:dot] = png
     options[:png] = png
@@ -73,6 +77,14 @@ if options[:dot]
   adapters << Graphshaper::DotAdapter.new(generated_graph_dot_file)
 end
 
+if options[:sql]
+  generated_graph_sql_file = File.new("generated_graph.sql", "w")
+  generated_vertices_sql_file = File.new("generated_vertices.sql", "w")
+  generated_edges_sql_file = File.new("generated_edges.sql", "w")
+  
+  adapters << Graphshaper::SqlAdapter.new(generated_graph_sql_file, generated_vertices_sql_file, generated_edges_sql_file)
+end
+
 inner_vertices = 20
 outer_vertices = ARGV.first.to_i - inner_vertices
 
@@ -91,6 +103,7 @@ print "#{graph.order} vertices and #{graph.size} edges generated"
 print " and saved into AvocadoDB" if options[:avocado]
 print " and logged" if options[:log]
 print " and generated as a dot" if options[:dot]
+print " and saved in sql format" if options[:sql]
 
 if options[:png]
   system('circo -Tpng generated_graph.dot -o generated_graph.png')
