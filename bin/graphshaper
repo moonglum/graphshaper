@@ -62,9 +62,7 @@ open_files = []
   
 if options[:log]
   vertex_output_file = File.new "vertices.csv", "w"
-  open_files << vertex_output_file
   edge_output_file = File.new "edges.csv", "w"
-  open_files << edge_output_file
   adapters << Graphshaper::LoggingAdapter.new(vertex_output_file, edge_output_file)
 end
 
@@ -74,7 +72,6 @@ end
 
 if options[:dot]
   dot_output_file = File.new "generated_graph.dot", "w"
-  open_files << dot_output_file
   dot_adapter = Graphshaper::DotAdapter.new(dot_output_file)
   adapters << dot_adapter
 end
@@ -87,17 +84,15 @@ graph.connect_all_vertices
   graph.add_vertex { |preferential_attachment| preferential_attachment > rand }
 end
 
-dot_adapter.close if options[:dot]
-
 ellapsed_time = Time.now - start_time
+
+adapters.each { |adapter| adapter.close }
 
 print "#{graph.order} vertices and #{graph.size} edges generated"
 
 print " and saved into AvocadoDB" if options[:avocado]
 print " and logged" if options[:log]
 print " and generated as a dot" if options[:dot]
-
-open_files.each { |file| file.close }
 
 if options[:png]
   system('circo -Tpng generated_graph.dot -o generated_graph.png')

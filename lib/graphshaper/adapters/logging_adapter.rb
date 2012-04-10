@@ -16,5 +16,10 @@ module Graphshaper
     def add_vertex(vertex_id)
       @vertex_logger_file << "#{vertex_id}\n"
     end
+    
+    def close
+      @vertex_logger_file.close
+      @edge_logger_file.close
+    end
   end
 end

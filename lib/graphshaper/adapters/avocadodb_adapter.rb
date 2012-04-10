@@ -33,6 +33,10 @@ module Graphshaper
       @edge_matching[edge_id] = response.parsed_response["_id"]
     end
     
+    def close
+      
+    end
+    
     private
     
     def drop_and_create_collection(name)
