@@ -19,6 +19,7 @@ describe Graphshaper::DotAdapter do
     
     it "should be closeable" do
       @output_file.should_receive(:<<).with("}")
+      @output_file.should_receive(:close)
       @dot_adapter.close
     end
     

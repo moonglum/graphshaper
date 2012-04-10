@@ -3,6 +3,8 @@
 require 'graphshaper'
 require 'optparse'
 
+start_time = Time.now
+
 options = {}
 
 optparse = OptionParser.new do |opts|
@@ -54,16 +56,12 @@ if options[:avocado]
   end
 end
 
-number_of_vertices = ARGV.first.to_i
-inner_vertices = 20
-  
 adapters = []
-open_files = []
   
 if options[:log]
-  vertex_output_file = File.new "vertices.csv", "w"
-  edge_output_file = File.new "edges.csv", "w"
-  adapters << Graphshaper::LoggingAdapter.new(vertex_output_file, edge_output_file)
+  generated_vertices_csv_file = File.new("generated_vertices.csv", "w")
+  generated_edges_csv_file = File.new("generated_edges.csv", "w")
+  adapters << Graphshaper::LoggingAdapter.new(generated_vertices_csv_file, generated_edges_csv_file)
 end
 
 if options[:avocado]
@@ -71,20 +69,20 @@ if options[:avocado]
 end
 
 if options[:dot]
-  dot_output_file = File.new "generated_graph.dot", "w"
-  dot_adapter = Graphshaper::DotAdapter.new(dot_output_file)
-  adapters << dot_adapter
+  generated_graph_dot_file = File.new("generated_graph.dot", "w")
+  adapters << Graphshaper::DotAdapter.new(generated_graph_dot_file)
 end
 
-start_time = Time.now
+inner_vertices = 20
+outer_vertices = ARGV.first.to_i - inner_vertices
 
 graph = Graphshaper::UndirectedGraph.new inner_vertices, adapters: adapters
+
 graph.connect_all_vertices
-(number_of_vertices - inner_vertices).times do
+
+outer_vertices.times do
   graph.add_vertex { |preferential_attachment| preferential_attachment > rand }
 end
-
-ellapsed_time = Time.now - start_time
 
 adapters.each { |adapter| adapter.close }
 
@@ -97,6 +95,8 @@ print " and generated as a dot" if options[:dot]
 if options[:png]
   system('circo -Tpng generated_graph.dot -o generated_graph.png')
 end
+
+ellapsed_time = Time.now - start_time
 
 if ellapsed_time < 2
   puts " in about one second"
