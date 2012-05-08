@@ -31,6 +31,10 @@ optparse = OptionParser.new do |opts|
     options[:png] = png
   end
   
+  opts.on("-t", "--testdata", "Generate Test Data (for shortestpath)") do |sp|
+    options[:t] = sp
+  end
+  
   opts.on_tail("--version", "Show version") do
     puts Graphshaper::VERSION
     exit
@@ -85,8 +89,9 @@ if options[:sql]
   adapters << Graphshaper::SqlAdapter.new(generated_graph_sql_file, generated_vertices_sql_file, generated_edges_sql_file)
 end
 
+number_of_vertices = ARGV.first.to_i
 inner_vertices = 20
-outer_vertices = ARGV.first.to_i - inner_vertices
+outer_vertices = number_of_vertices - inner_vertices
 
 graph = Graphshaper::UndirectedGraph.new inner_vertices, adapters: adapters
 
@@ -98,12 +103,24 @@ end
 
 adapters.each { |adapter| adapter.close }
 
+if options[:t]
+  generated_test_cases_for_shortest_path = File.new("generated_testcases.csv", "w")
+  generated_test_cases_for_shortest_path << "from_id,to_id\n"
+  inner_vertices.times do |inner_vertex_id|
+    rand(10).times do
+      to_node = rand(number_of_vertices)
+      generated_test_cases_for_shortest_path << "#{inner_vertex_id},#{to_node}\n"
+    end
+  end
+end
+
 print "#{graph.order} vertices and #{graph.size} edges generated"
 
 print " and saved into AvocadoDB" if options[:avocado]
 print " and logged" if options[:log]
 print " and generated as a dot" if options[:dot]
 print " and saved in sql format" if options[:sql]
+print " and generated test cases" if options[:t]
 
 if options[:png]
   system('circo -Tpng generated_graph.dot -o generated_graph.png')
