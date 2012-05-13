@@ -26,7 +26,7 @@ The commandline tool expects one argument: The number of vertices you want your 
 
 You can use the following options:
 
-* `-a`, `--avocado`: Store the graph in a local AvocadoDB instance
+* `-a`, `--arango`: Store the graph in a local ArangoDB instance
 * `-l`, `--log`: Store the graph in two CSV files for nodes and edges
 * `-d`, `--dot`: Store the graph in the dot format
 * `-p`, `--png`: Export the graph as a PNG (you need to install graphviz for that – circo is used for the layout)

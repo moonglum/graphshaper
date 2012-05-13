@@ -1,7 +1,7 @@
 require "httparty"
 
 module Graphshaper
-  class AvocadoDbAdapter
+  class ArangoDbAdapter
     include HTTParty
     
     base_uri 'localhost:8529'
