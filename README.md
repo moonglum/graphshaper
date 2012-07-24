@@ -2,6 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/moonglum/graphshaper.png?branch=master)](http://travis-ci.org/moonglum/graphshaper)
 [![Dependency Status](https://gemnasium.com/moonglum/graphshaper.png)](https://gemnasium.com/moonglum/graphshaper)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/moonglum/graphshaper)
 
 Graphshaper can generate realistic, scale-free graphs of any size. It is tested with MRI Ruby (1.9.2. and 1.9.3) and the 1.9 versions of jRuby and Rubinius.
 
