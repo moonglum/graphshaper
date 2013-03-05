@@ -15,9 +15,9 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Graphshaper::VERSION
 
-  gem.add_dependency             "httparty", "~> 0.9.0"
-  gem.add_development_dependency "rake",     "~> 0.9.3.beta.1"
-  gem.add_development_dependency "rspec",    "~> 2.11.0"
-  gem.add_development_dependency "webmock",  "~> 1.8.8"
-  gem.add_development_dependency "yard",     "~> 0.8.2.1"
+  gem.add_dependency             "httparty", "~> 0.10.2"
+  gem.add_development_dependency "rake",     "~> 10.0.3"
+  gem.add_development_dependency "rspec",    "~> 2.13.0"
+  gem.add_development_dependency "webmock",  "~> 1.11.0"
+  gem.add_development_dependency "yard",     "~> 0.8.5.2"
 end
