@@ -2,15 +2,15 @@
 
 [![Build Status](https://secure.travis-ci.org/moonglum/graphshaper.png?branch=master)](http://travis-ci.org/moonglum/graphshaper)
 [![Dependency Status](https://gemnasium.com/moonglum/graphshaper.png)](https://gemnasium.com/moonglum/graphshaper)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/moonglum/graphshaper)
+[![Code Climate](https://codeclimate.com/github/moonglum/graphshaper.png)](https://codeclimate.com/github/moonglum/graphshaper)
 
-Graphshaper can generate realistic, scale-free graphs of any size. It is tested with MRI Ruby (1.9.2. and 1.9.3) and the 1.9 versions of jRuby and Rubinius.
+Graphshaper can generate realistic, scale-free graphs of any size. It is tested with MRI Ruby (1.9.2, 1.9.3 and 2.0.0) and the 1.9 versions of JRuby and Rubinius.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'graphshaper'
+    gem 'graphshaper', '~> 0.3.0'
 
 And then execute:
 
@@ -32,6 +32,7 @@ You can use the following options:
 * `-l`, `--log`: Store the graph in two CSV files for nodes and edges
 * `-d`, `--dot`: Store the graph in the dot format
 * `-p`, `--png`: Export the graph as a PNG (you need to install graphviz for that – circo is used for the layout)
+* `-j`, `--json`: Export the graph as a JSON file
 * `--version`: Show version
 
 You can also use the library in your Ruby Code. You can find the documentation [here](http://rubydoc.info/github/moonglum/graphshaper).
