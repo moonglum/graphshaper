@@ -35,6 +35,10 @@ optparse = OptionParser.new do |opts|
     options[:t] = sp
   end
 
+  opts.on("-j", "--json", "Generate JSON files") do |j|
+    options[:json] = j
+  end
+
   opts.on_tail("--version", "Show version") do
     puts Graphshaper::VERSION
     exit
@@ -89,6 +93,12 @@ if options[:sql]
   adapters << Graphshaper::SqlAdapter.new(generated_graph_sql_file, generated_vertices_sql_file, generated_edges_sql_file)
 end
 
+if options[:json]
+  `rm -r generated_edges`
+  Dir.mkdir("generated_edges")
+  adapters << Graphshaper::JsonAdapter.new("generated_edges")
+end
+
 number_of_vertices = ARGV.first.to_i
 inner_vertices = 20
 outer_vertices = number_of_vertices - inner_vertices
@@ -121,6 +131,7 @@ print " and logged" if options[:log]
 print " and generated as a dot" if options[:dot]
 print " and saved in sql format" if options[:sql]
 print " and generated test cases" if options[:t]
+print " and generated JSON files" if options[:json]
 
 if options[:png]
   system('circo -Tpng generated_graph.dot -o generated_graph.png')
