@@ -9,37 +9,37 @@ options = {}
 
 optparse = OptionParser.new do |opts|
   opts.banner = "Usage: graphshaper [options] size"
-  
+
   opts.on("-a", "--arango", "Store the graph in a local ArangoDB instance") do |arango|
     options[:arango] = arango
   end
-  
+
   opts.on("-l", "--log", "Store the graph in two CSV files for nodes and edges") do |log|
     options[:log] = log
   end
-  
+
   opts.on("-d", "--dot", "Store the graph in the dot format") do |dot|
     options[:dot] = dot
   end
-  
+
   opts.on("-s", "--sql", "Store the graph in sql format") do |sql|
     options[:sql] = sql
   end
-  
+
   opts.on("-p", "--png", "Export the graph as a PNG (graphviz must be installed)") do |png|
     options[:dot] = png
     options[:png] = png
   end
-  
+
   opts.on("-t", "--testdata", "Generate Test Data (for shortestpath)") do |sp|
     options[:t] = sp
   end
-  
+
   opts.on_tail("--version", "Show version") do
     puts Graphshaper::VERSION
     exit
   end
-  
+
   opts.parse!
 end
 
@@ -65,7 +65,7 @@ if options[:arango]
 end
 
 adapters = []
-  
+
 if options[:log]
   generated_vertices_csv_file = File.new("generated_vertices.csv", "w")
   generated_edges_csv_file = File.new("generated_edges.csv", "w")
@@ -85,7 +85,7 @@ if options[:sql]
   generated_graph_sql_file = File.new("generated_graph.sql", "w")
   generated_vertices_sql_file = File.new("generated_vertices.sql", "w")
   generated_edges_sql_file = File.new("generated_edges.sql", "w")
-  
+
   adapters << Graphshaper::SqlAdapter.new(generated_graph_sql_file, generated_vertices_sql_file, generated_edges_sql_file)
 end
 
